@@ -70,3 +70,4 @@
 /Users/arielortiz/Documents/dotnet/MusicGallery/bin/Debug/net6.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /Users/arielortiz/Documents/dotnet/MusicGallery/bin/Debug/net6.0/Newtonsoft.Json.dll
 /Users/arielortiz/Documents/dotnet/MusicGallery/bin/Debug/net6.0/Newtonsoft.Json.Bson.dll
+/Users/arielortiz/Documents/dotnet/MusicGallery/obj/Debug/net6.0/MusicGallery.sourcelink.json

@@ -4,39 +4,48 @@ using MusicGallery.Models;
 using MusicGallery.Response;
 using MusicGallery.Service;
 
-namespace MusicGallery.Controllers{
+namespace MusicGallery.Controllers
+{
 
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumController: ControllerBase{
+    public class AlbumController : ControllerBase
+    {
 
         private readonly IAlbumService _albumService;
 
 
-        public AlbumController(IAlbumService albumService){
+        public AlbumController(IAlbumService albumService)
+        {
             _albumService = albumService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Album>>> GetAllAlbums(){
+        public async Task<ActionResult<List<Album>>> GetAllAlbums()
+        {
             return Ok(await _albumService.GetAllAlbums());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Album>>> GetAllAlbumsByArtist(int id){
+        public async Task<ActionResult<List<Album>>> GetAllAlbumsByArtist(int id)
+        {
             return Ok(await _albumService.GetAllAlbumsByArtist(id));
         }
 
         [HttpGet("detail/{id}")]
-        public async Task<ActionResult<Album>> GetSingleAlbum(int id){
+        public async Task<ActionResult<Album>> GetSingleAlbum(int id)
+        {
             return Ok(await _albumService.GetAlbum(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Album>> CreateAlbum(AlbumDTO albumDTO){
+        public async Task<ActionResult<Album>> CreateAlbum([FromBody] AlbumDTO albumDTO)
+        {
 
-            try{
-                var newAlbum = new Album{
+            try
+            {
+                var newAlbum = new Album
+                {
                     Title = albumDTO.Title,
                     NumOfSongs = albumDTO.NumOfSongs,
                     PublishedDate = albumDTO.PublishedDate,
@@ -44,39 +53,49 @@ namespace MusicGallery.Controllers{
                 };
                 await _albumService.CreateAlbum(newAlbum);
                 return Ok(newAlbum);
-            }catch{
+            }
+            catch
+            {
                 return BadRequest("Something went wrong");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Album>> UpdateAlbum(int id, AlbumUpdateDTO albumUpdateDTO){
+        public async Task<ActionResult<Album>> UpdateAlbum(int id, AlbumUpdateDTO albumUpdateDTO)
+        {
 
-            try{
+            try
+            {
                 var albumExists = await _albumService.GetAlbum(id);
-                if(albumExists == null){
+                if (albumExists == null)
+                {
                     return BadRequest("Album don't exists");
                 }
                 albumExists.Title = albumUpdateDTO.Title;
                 albumExists.PublishedDate = albumUpdateDTO.PublishedDate;
-                albumExists.NumOfSongs  = albumUpdateDTO.NumOfSongs;
+                albumExists.NumOfSongs = albumUpdateDTO.NumOfSongs;
                 await _albumService.UpdateAlbum(albumExists);
                 return Ok(albumExists);
-             }catch{
+            }
+            catch
+            {
                 return BadRequest("Something went wrong");
-             }
+            }
 
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MGResponse>> DeleteAlbum(int id){
+        public async Task<ActionResult<MGResponse>> DeleteAlbum(int id)
+        {
 
             var albumExists = await _albumService.GetAlbum(id);
-            if(albumExists == null){
+            if (albumExists == null)
+            {
                 return BadRequest("Album don't exists");
             }
             await _albumService.DeleteAlbum(albumExists);
-            return Ok(new MGResponse{
+            return Ok(new MGResponse
+            {
                 Message = "Deleted"
             });
 
