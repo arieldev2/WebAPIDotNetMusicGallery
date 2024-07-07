@@ -1,15 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MusicGallery.DTOs;
+using MusicGallery.Interface;
 using MusicGallery.Models;
-using MusicGallery.Response;
 
-namespace MusicGallery.Service{
-    public class ArtistService : IArtistService
+namespace MusicGallery.Repository
+{
+    public class ArtistRepository : IArtistRepository
     {
         private readonly MusicGalleryDBContext _context;
 
-        public ArtistService(MusicGalleryDBContext context){
+        public ArtistRepository(MusicGalleryDBContext context)
+        {
             _context = context;
         }
 

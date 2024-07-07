@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("e27bf86c-b9ba-4e23-8e65-990665e4eca6")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("MusicGallery")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8b32c9e78c8610b7ef0822330f1e6fdf75c2f6b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8388ebf744104209a0a8bb80fac93b38b3d3bb0e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MusicGallery")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MusicGallery")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

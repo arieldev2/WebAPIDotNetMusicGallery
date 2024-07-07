@@ -1,12 +1,15 @@
 using Microsoft.EntityFrameworkCore;
+using MusicGallery.Interface;
 using MusicGallery.Models;
 
-namespace MusicGallery.Service{
-    public class AlbumService : IAlbumService
+namespace MusicGallery.Repository
+{
+    public class AlbumRepository : IAlbumRepository
     {
         private readonly MusicGalleryDBContext _context;
 
-        public AlbumService(MusicGalleryDBContext context){
+        public AlbumRepository(MusicGalleryDBContext context)
+        {
             _context = context;
         }
 
@@ -24,7 +27,7 @@ namespace MusicGallery.Service{
 
         public async Task<Album?> GetAlbum(int id)
         {
-            return await _context.Albums.FindAsync(id);    
+            return await _context.Albums.FindAsync(id);
         }
 
         public async Task<List<Album>> GetAllAlbums()
@@ -35,7 +38,7 @@ namespace MusicGallery.Service{
 
         public async Task<List<Album>> GetAllAlbumsByArtist(int artistId)
         {
-            var albums =  _context.Albums.Where(x => x.ArtistId == artistId);
+            var albums = _context.Albums.Where(x => x.ArtistId == artistId);
             return await albums.ToListAsync();
         }
 

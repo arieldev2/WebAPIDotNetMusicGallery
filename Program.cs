@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using MusicGallery.Interface;
 using MusicGallery.Models;
-using MusicGallery.Service;
+using MusicGallery.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddTransient<IArtistService, ArtistService>();
-builder.Services.AddTransient<IAlbumService, AlbumService>();
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 
 
 builder.Services.AddControllers()
@@ -18,9 +19,11 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionDB = builder.Configuration["Music:ConnectionDB"];
 
-builder.Services.AddDbContext<MusicGalleryDBContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MusicContext"));
+builder.Services.AddDbContext<MusicGalleryDBContext>(options =>
+{
+    options.UseSqlServer(connectionDB);
 });
 
 var app = builder.Build();

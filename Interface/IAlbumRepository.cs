@@ -1,7 +1,9 @@
 using MusicGallery.Models;
 
-namespace MusicGallery.Service{
-    public interface IAlbumService{
+namespace MusicGallery.Interface
+{
+    public interface IAlbumRepository
+    {
 
         Task<List<Album>> GetAllAlbums();
         Task<List<Album>> GetAllAlbumsByArtist(int artistId);

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicGallery.DTOs;
 using MusicGallery.Models;
 using MusicGallery.Response;
-using MusicGallery.Service;
+using MusicGallery.Interface;
 
 namespace MusicGallery.Controllers
 {
@@ -12,30 +12,30 @@ namespace MusicGallery.Controllers
     public class AlbumController : ControllerBase
     {
 
-        private readonly IAlbumService _albumService;
+        private readonly IAlbumRepository _albumRepository;
 
 
-        public AlbumController(IAlbumService albumService)
+        public AlbumController(IAlbumRepository albumRepository)
         {
-            _albumService = albumService;
+            _albumRepository = albumRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Album>>> GetAllAlbums()
         {
-            return Ok(await _albumService.GetAllAlbums());
+            return Ok(await _albumRepository.GetAllAlbums());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Album>>> GetAllAlbumsByArtist(int id)
         {
-            return Ok(await _albumService.GetAllAlbumsByArtist(id));
+            return Ok(await _albumRepository.GetAllAlbumsByArtist(id));
         }
 
         [HttpGet("detail/{id}")]
         public async Task<ActionResult<Album>> GetSingleAlbum(int id)
         {
-            return Ok(await _albumService.GetAlbum(id));
+            return Ok(await _albumRepository.GetAlbum(id));
         }
 
         [HttpPost]
@@ -51,7 +51,7 @@ namespace MusicGallery.Controllers
                     PublishedDate = albumDTO.PublishedDate,
                     ArtistId = albumDTO.ArtistId,
                 };
-                await _albumService.CreateAlbum(newAlbum);
+                await _albumRepository.CreateAlbum(newAlbum);
                 return Ok(newAlbum);
             }
             catch
@@ -66,7 +66,7 @@ namespace MusicGallery.Controllers
 
             try
             {
-                var albumExists = await _albumService.GetAlbum(id);
+                var albumExists = await _albumRepository.GetAlbum(id);
                 if (albumExists == null)
                 {
                     return BadRequest("Album don't exists");
@@ -74,7 +74,7 @@ namespace MusicGallery.Controllers
                 albumExists.Title = albumUpdateDTO.Title;
                 albumExists.PublishedDate = albumUpdateDTO.PublishedDate;
                 albumExists.NumOfSongs = albumUpdateDTO.NumOfSongs;
-                await _albumService.UpdateAlbum(albumExists);
+                await _albumRepository.UpdateAlbum(albumExists);
                 return Ok(albumExists);
             }
             catch
@@ -88,12 +88,12 @@ namespace MusicGallery.Controllers
         public async Task<ActionResult<MGResponse>> DeleteAlbum(int id)
         {
 
-            var albumExists = await _albumService.GetAlbum(id);
+            var albumExists = await _albumRepository.GetAlbum(id);
             if (albumExists == null)
             {
                 return BadRequest("Album don't exists");
             }
-            await _albumService.DeleteAlbum(albumExists);
+            await _albumRepository.DeleteAlbum(albumExists);
             return Ok(new MGResponse
             {
                 Message = "Deleted"

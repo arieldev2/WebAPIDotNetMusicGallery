@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicGallery.DTOs;
 using MusicGallery.Models;
 using MusicGallery.Response;
-using MusicGallery.Service;
+using MusicGallery.Interface;
 
 namespace MusicGallery.Controllers
 {
@@ -11,24 +11,24 @@ namespace MusicGallery.Controllers
     public class ArtistController : ControllerBase
     {
 
-        private readonly IArtistService _artistService;
+        private readonly IArtistRepository _artistRepository;
 
-        public ArtistController(IArtistService artistService)
+        public ArtistController(IArtistRepository artistRepository)
         {
-            _artistService = artistService;
+            _artistRepository = artistRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Artist>>> GetArtists()
         {
-            var artists = await _artistService.GetArtists();
+            var artists = await _artistRepository.GetArtists();
             return Ok(artists);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(int id)
         {
-            var artist = await _artistService.GetArtist(id);
+            var artist = await _artistRepository.GetArtist(id);
             return Ok(artist);
         }
 
@@ -47,7 +47,7 @@ namespace MusicGallery.Controllers
                     Name = artist.Name,
                     Genre = artist.Genre
                 };
-                await _artistService.CreateArtist(newArtist);
+                await _artistRepository.CreateArtist(newArtist);
                 return Ok(newArtist);
             }
             catch
@@ -68,7 +68,7 @@ namespace MusicGallery.Controllers
                     return BadRequest("Name and Genre are required");
                 }
 
-                var artistExists = await _artistService.GetArtist(id);
+                var artistExists = await _artistRepository.GetArtist(id);
                 if (artistExists == null)
                 {
                     return BadRequest("Artist don't exists");
@@ -76,7 +76,7 @@ namespace MusicGallery.Controllers
                 artistExists.Name = artist.Name;
                 artistExists.Genre = artist.Genre;
 
-                await _artistService.UpdateArtist(artistExists);
+                await _artistRepository.UpdateArtist(artistExists);
                 return Ok(artistExists);
             }
             catch
@@ -89,12 +89,12 @@ namespace MusicGallery.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<MGResponse>> DeleteArtist(int id)
         {
-            var artistExists = await _artistService.GetArtist(id);
+            var artistExists = await _artistRepository.GetArtist(id);
             if (artistExists == null)
             {
                 return BadRequest("Artist don't exists");
             }
-            await _artistService.DeleteArtist(artistExists);
+            await _artistRepository.DeleteArtist(artistExists);
             return Ok(new MGResponse
             {
                 Message = "Deleted"
