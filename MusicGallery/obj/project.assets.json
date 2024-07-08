@@ -2594,11 +2594,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/arielortiz/Documents/dotnet/MusicGallery/MusicGallery.csproj",
+      "projectUniqueName": "/Users/arielortiz/Documents/dotnet/MusicGallery/MusicGallery/MusicGallery.csproj",
       "projectName": "MusicGallery",
-      "projectPath": "/Users/arielortiz/Documents/dotnet/MusicGallery/MusicGallery.csproj",
+      "projectPath": "/Users/arielortiz/Documents/dotnet/MusicGallery/MusicGallery/MusicGallery.csproj",
       "packagesPath": "/Users/arielortiz/.nuget/packages/",
-      "outputPath": "/Users/arielortiz/Documents/dotnet/MusicGallery/obj/",
+      "outputPath": "/Users/arielortiz/Documents/dotnet/MusicGallery/MusicGallery/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/arielortiz/.nuget/NuGet/NuGet.Config"
