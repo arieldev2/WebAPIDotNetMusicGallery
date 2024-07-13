@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MusicGallery.DTOs;
+using MusicGallery.ViewModels;
 using MusicGallery.Models;
 using MusicGallery.Response;
 using MusicGallery.Interface;
@@ -39,17 +39,17 @@ namespace MusicGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Album>> CreateAlbum([FromBody] AlbumDTO albumDTO)
+        public async Task<ActionResult<Album>> CreateAlbum([FromBody] AlbumViewModel albumViewModel)
         {
 
             try
             {
                 var newAlbum = new Album
                 {
-                    Title = albumDTO.Title,
-                    NumOfSongs = albumDTO.NumOfSongs,
-                    PublishedDate = albumDTO.PublishedDate,
-                    ArtistId = albumDTO.ArtistId,
+                    Title = albumViewModel.Title,
+                    NumOfSongs = albumViewModel.NumOfSongs,
+                    PublishedDate = albumViewModel.PublishedDate,
+                    ArtistId = albumViewModel.ArtistId,
                 };
                 await _albumRepository.CreateAlbum(newAlbum);
                 return Ok(newAlbum);
@@ -61,7 +61,7 @@ namespace MusicGallery.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Album>> UpdateAlbum(int id, AlbumUpdateDTO albumUpdateDTO)
+        public async Task<ActionResult<Album>> UpdateAlbum(int id, AlbumUpdateViewModel albumUpdateViewModel)
         {
 
             try
@@ -71,9 +71,9 @@ namespace MusicGallery.Controllers
                 {
                     return BadRequest("Album don't exists");
                 }
-                albumExists.Title = albumUpdateDTO.Title;
-                albumExists.PublishedDate = albumUpdateDTO.PublishedDate;
-                albumExists.NumOfSongs = albumUpdateDTO.NumOfSongs;
+                albumExists.Title = albumUpdateViewModel.Title;
+                albumExists.PublishedDate = albumUpdateViewModel.PublishedDate;
+                albumExists.NumOfSongs = albumUpdateViewModel.NumOfSongs;
                 await _albumRepository.UpdateAlbum(albumExists);
                 return Ok(albumExists);
             }

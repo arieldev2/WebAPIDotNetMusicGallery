@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MusicGallery.DTOs;
+using MusicGallery.ViewModels;
 using MusicGallery.Models;
 using MusicGallery.Response;
 using MusicGallery.Interface;
@@ -33,19 +33,19 @@ namespace MusicGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Artist>> CreateArtist([FromBody] ArtistDTO artist)
+        public async Task<ActionResult<Artist>> CreateArtist([FromBody] ArtistViewModel artistViewModel)
         {
 
             try
             {
-                if (artist.Name == string.Empty || artist.Genre == string.Empty)
+                if (artistViewModel.Name == string.Empty || artistViewModel.Genre == string.Empty)
                 {
                     return BadRequest("Name and Genre are required");
                 }
                 var newArtist = new Artist()
                 {
-                    Name = artist.Name,
-                    Genre = artist.Genre
+                    Name = artistViewModel.Name,
+                    Genre = artistViewModel.Genre
                 };
                 await _artistRepository.CreateArtist(newArtist);
                 return Ok(newArtist);
@@ -58,12 +58,12 @@ namespace MusicGallery.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Artist>> UpdateArtist(int id, ArtistDTO artist)
+        public async Task<ActionResult<Artist>> UpdateArtist(int id, ArtistViewModel artistViewModel)
         {
 
             try
             {
-                if (artist.Name == string.Empty || artist.Genre == string.Empty)
+                if (artistViewModel.Name == string.Empty || artistViewModel.Genre == string.Empty)
                 {
                     return BadRequest("Name and Genre are required");
                 }
@@ -73,8 +73,8 @@ namespace MusicGallery.Controllers
                 {
                     return BadRequest("Artist don't exists");
                 }
-                artistExists.Name = artist.Name;
-                artistExists.Genre = artist.Genre;
+                artistExists.Name = artistViewModel.Name;
+                artistExists.Genre = artistViewModel.Genre;
 
                 await _artistRepository.UpdateArtist(artistExists);
                 return Ok(artistExists);
